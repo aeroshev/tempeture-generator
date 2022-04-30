@@ -1,6 +1,7 @@
 from flask import Flask, Response
 from flask_apscheduler import APScheduler
 from kafka import KafkaProducer
+from kafka.producer.future import FutureRecordMetadata
 
 from config.base import KAFKA_ADDRESS, LATENCY, Config
 from utils.generator import SensorData, get_data
@@ -24,7 +25,7 @@ def health() -> Response:
 def send_to_kafka() -> None:
     data = next(get_data())  # type: SensorData
     app.logger.info(f"Task send to kafka - {data}")
-    future = producer.send(topic=data.area, value=data.get_bytes())
+    future = producer.send(topic=data.area, value=data.get_bytes())  # type: FutureRecordMetadata
     record_metadata = future.get(timeout=10)
     app.logger.info(f"Future meta - {record_metadata}")
 

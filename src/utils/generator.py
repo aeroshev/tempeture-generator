@@ -3,11 +3,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Iterator
 
-from faker import Faker
-
 from src.config.base import ENCODING, LATENCY
-
-_fake = Faker()
 
 _start_date = datetime(year=2000, month=1, day=1)
 _delta = timedelta(seconds=LATENCY)
